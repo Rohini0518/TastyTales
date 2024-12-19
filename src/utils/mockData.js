@@ -113,10 +113,10 @@ export const resList=[
           "Chinese",
           "Burgers"
         ],
-        "avgRating": 4.2,
+        "avgRating": 3.9,
         "veg": true,
         "parentId": "442232",
-        "avgRatingString": "4.2",
+        "avgRatingString": "3.9",
         "totalRatingsString": "1.3K+",
         "sla": {
           "deliveryTime": 23,
