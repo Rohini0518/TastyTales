@@ -222,7 +222,7 @@ export const resList=[
         ],
         "avgRating": 4.2,
         "parentId": "99564",
-        "avgRatingString": "4.2",
+        "avgRatingString": "3.9",
         "totalRatingsString": "506",
         "sla": {
           "deliveryTime": 27,

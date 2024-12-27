@@ -6,7 +6,7 @@ const BodyCards = () => {
   const [showRes, setShowRes] = useState(resList);
   const [topRated, setTopRated] = useState(true);
   const [searchfilteredRes, setSearchFilteredRes] = useState(resList);
-  const [resSearch,setResSearch]=useState("");
+  const [resSearch, setResSearch] = useState("");
 
   //   const fetchData=async ()=>{
   //     try{
@@ -30,7 +30,11 @@ const BodyCards = () => {
   const handleAllrestaurants = () => {
     setTopRated(true);
     setShowRes(resList);
+    setResSearch("");
   };
+  const restaurentList = resSearch == "" ? showRes : searchfilteredRes;
+  // const filterRestaurent=topRated?restaurentList: restaurentList.filter((res)=>res.info.avgRating>=4.0)
+  console.log(restaurentList);
   return (
     <div>
       <h2 className="font-bold text-xl">Top restaurant chains in City </h2>
@@ -59,16 +63,18 @@ const BodyCards = () => {
         type="text"
         onChange={(e) => {
           setResSearch(e.target.value);
-          console.log(searchfilteredRes)
+          console.log(searchfilteredRes);
         }}
         value={resSearch}
         className="border-2 p-2"
       />
       <button
         onClick={() => {
-          console.log(resSearch)
-          let searchfiltered=showRes.filter((res) => (res.info.name.toLowerCase().includes(resSearch.toLowerCase()) ));
-          setSearchFilteredRes(searchfiltered)
+          console.log(resSearch);
+          let searchfiltered = showRes.filter((res) =>
+            res.info.name.toLowerCase().includes(resSearch.toLowerCase())
+          );
+          setSearchFilteredRes(searchfiltered);
         }}
         className="bg-transparent  hover:bg-green-400 text-blue-700 font-semibold hover:text-white py-2 px-4 mx-2 border border-blue-500 hover:border-transparent rounded"
       >
@@ -76,14 +82,16 @@ const BodyCards = () => {
       </button>
       <div className="flex flex-row gap-4 flex-wrap sm:mx-[5%]">
         {topRated
-          ? searchfilteredRes.map((restaurent) => (
+          ? restaurentList.map((restaurent) => (
               <Card key={restaurent.info.id} resData={restaurent} />
             ))
-          : searchfilteredRes
-              .filter((res) => res.info.avgRating >= 4.2)
+          : restaurentList
+              .filter((res) => res.info.avgRating >= 4.0)
+
               .map((restaurent) => (
                 <Card key={restaurent.info.id} resData={restaurent} />
               ))}
+        {/* {filterRestaurent.map((restaurent)=><Card key={restaurent.info.id} resData={restaurent} />)} */}
       </div>
     </div>
   );
