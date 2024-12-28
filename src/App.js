@@ -1,18 +1,25 @@
-import React, { useState } from "react";
-import { createRoot } from "react-dom/client";
 import "./index.css";
 import Header from "./Components/Header";
 import BodyCards from "./Components/BodyCards";
-
-const AppLayout = () => {
+import { Outlet, Route, Routes } from "react-router-dom";
+import About from "./Components/About";
+import Contact from "./Components/Contact";
+import NotFoundError from "./Components/NotFoundError";
+const App = () => {
 
   return (
     <div className="app mx-4">
       <Header />
-     <BodyCards />
+     <Outlet/>
+
+     <Routes>
+      <Route path="" element={<BodyCards/>}/>
+      <Route path="about" element={<About />}/>
+      <Route path="contact" element={<Contact />}/>
+      <Route path="*" element={<NotFoundError/>}></Route>
+     </Routes>
     </div>
   );
 };
 
-const root = createRoot(document.getElementById("root"));
-root.render(<AppLayout />);
+export default App;

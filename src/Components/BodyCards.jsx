@@ -1,39 +1,35 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card.js";
 import { resList } from "../utils/mockData.js";
+import { restaurentsURL } from "../utils/constants.js";
 
 const BodyCards = () => {
-  const [showRes, setShowRes] = useState(resList);
+  const [showRes, setShowRes] = useState([]);
   const [topRated, setTopRated] = useState(true);
-  const [searchfilteredRes, setSearchFilteredRes] = useState(resList);
+  const [searchfilteredRes, setSearchFilteredRes] = useState([]);
   const [resSearch, setResSearch] = useState("");
 
-  //   const fetchData=async ()=>{
-  //     try{
-  //     const response=await fetch(
-  //         "https://www.swiggy.com/dapi/restaurants/list/v5?lat=21.8974003&lng=83.39496319999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING",
-  //         );
-  //     let data =await response.json();
-  //     console.log(data)
-  //     console.log(data.data.cards[0])
-
-  //     // setShowRes(data.data.cards[1].card.card.retaurants)
-  //     console.log("rohini")
-  //  }catch(error){
-  //     console.log("data not found")
-  //  }
-  //   }
-  //   useEffect(()=>{fetchData()},[]);
-  //   console.log("rohini22")
-  //   console.log(showRes)
-
+  const fetchData = async () => {
+    try {
+      const response = await fetch(restaurentsURL);
+      let data = await response.json();
+      let resdata =
+        data.data.cards[1].card.card.gridElements.infoWithStyle.restaurants;
+      setShowRes(resdata);
+      setSearchFilteredRes(resdata);
+    } catch (error) {
+      console.log("data not found");
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   const handleAllrestaurants = () => {
     setTopRated(true);
-    setShowRes(resList);
+    // setShowRes(resList);
     setResSearch("");
   };
   const restaurentList = resSearch == "" ? showRes : searchfilteredRes;
-  // const filterRestaurent=topRated?restaurentList: restaurentList.filter((res)=>res.info.avgRating>=4.0)
   console.log(restaurentList);
   return (
     <div>
