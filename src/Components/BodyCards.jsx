@@ -14,7 +14,7 @@ const BodyCards = () => {
       const response = await fetch(restaurentsURL);
       let data = await response.json();
       let resdata =
-        data.data.cards[1].card.card.gridElements.infoWithStyle.restaurants;
+        data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
       setShowRes(resdata);
       setSearchFilteredRes(resdata);
     } catch (error) {
