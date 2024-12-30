@@ -32,7 +32,7 @@ const BodyCards = () => {
   const restaurentList = resSearch == "" ? showRes : searchfilteredRes;
   console.log(restaurentList);
   return (
-    <div>
+    <div className="m-4">
       <h2 className="font-bold text-xl">Top restaurant chains in City </h2>
       <button
         onClick={(e) => {
