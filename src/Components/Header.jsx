@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import {NAV_LOGO} from "../utils/constants"
+import logo from "../utils/tt.jpeg"
 const div = () => {
     return (
       
@@ -7,7 +8,7 @@ const div = () => {
 	<div className="container flex justify-between h-16 mx-auto">
       <img
           className="w-[80px] border-bg-success rounded-2"
-          src={NAV_LOGO}
+          src={logo}
           alt="image"/>
 		<ul className="items-stretch hidden space-x-3 lg:flex">
 			<li className="flex">
@@ -20,7 +21,7 @@ const div = () => {
       <Link to="/contact" className="flex items-center px-4 -mb-1 border-b-2 border-transparent">Contact US</Link>
 			</li>
 			<li className="flex">
-      <Link to="/" className="flex items-center px-4 -mb-1 border-b-2 border-transparent">Cart</Link>
+      <Link to="/shimmer" className="flex items-center px-4 -mb-1 border-b-2 border-transparent">Cart</Link>
 			</li>
 		</ul>
 		<div className="items-center flex-shrink-0 hidden lg:flex">

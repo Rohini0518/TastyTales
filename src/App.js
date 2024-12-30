@@ -6,6 +6,7 @@ import About from "./Components/About";
 import Contact from "./Components/Contact";
 import NotFoundError from "./Components/NotFoundError";
 import MenuDetails from "./Components/MenuDetails";
+import ShimmerUI from "./Components/ShimmerUI";
 const App = () => {
 
   // create a chef based food app which gives more respect to chefs as youtube was famous chefs
@@ -18,7 +19,8 @@ const App = () => {
       <Route path="" element={<BodyCards/>}/>
       <Route path="about" element={<MenuDetails />}/>
       <Route path="contact" element={<Contact />}/>
-      <Route path="*" element={<NotFoundError/>}></Route>
+      <Route path="shimmer" element={<ShimmerUI />}/>
+      <Route path="*" element={<NotFoundError/>}/>
      </Routes>
     </div>
   );

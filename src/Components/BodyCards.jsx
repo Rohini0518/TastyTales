@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "./Card.js";
 import { resList } from "../utils/mockData.js";
 import { restaurentsURL } from "../utils/constants.js";
+import ShimmerUI from "./ShimmerUI.jsx";
 
 const BodyCards = () => {
   const [showRes, setShowRes] = useState([]);
@@ -26,11 +27,15 @@ const BodyCards = () => {
   }, []);
   const handleAllrestaurants = () => {
     setTopRated(true);
-    // setShowRes(resList);
     setResSearch("");
   };
   const restaurentList = resSearch == "" ? showRes : searchfilteredRes;
   console.log(restaurentList);
+  if(restaurentList.length===0){
+    console.log("shimmerUI")
+   return <ShimmerUI/>
+  }
+  else{
   return (
     <div className="m-4">
       <h2 className="font-bold text-xl">Top restaurant chains in City </h2>
@@ -91,6 +96,6 @@ const BodyCards = () => {
       </div>
     </div>
   );
-};
+}};
 
 export default BodyCards;
