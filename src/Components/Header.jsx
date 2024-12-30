@@ -4,7 +4,7 @@ import logo from "../utils/tt.jpeg"
 const div = () => {
     return (
       
-        <div className="p-2">
+        <div className="p-2 text-2xl">
 	<div className="container flex justify-between h-16 mx-auto">
       <img
           className="w-[80px] border-bg-success rounded-2"
@@ -21,7 +21,7 @@ const div = () => {
       <Link to="/contact" className="flex items-center px-4 -mb-1 border-b-2 border-transparent">Contact US</Link>
 			</li>
 			<li className="flex">
-      <Link to="/shimmer" className="flex items-center px-4 -mb-1 border-b-2 border-transparent">Cart</Link>
+      <Link to="/menu" className="flex items-center px-4 -mb-1 border-b-2 border-transparent">Cart</Link>
 			</li>
 		</ul>
 		<div className="items-center flex-shrink-0 hidden lg:flex">
