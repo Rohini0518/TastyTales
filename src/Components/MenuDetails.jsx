@@ -1,4 +1,23 @@
-export default function MenuDetails({resMenu}) {
+import { useState } from "react";
+
+export default function MenuDetails({resMenuId}) {
+const [resMenu,setresMenu]=useState([]);
+
+const fetchData=async ()=>{
+  try{
+    const response=await fetch("",{
+      method:"GET"
+    });
+    let data=await response.json();
+    setresMenu(data)
+  }
+  catch(error){
+    console.log("data not retrived for menu"); 
+  }
+}
+
+
+
   return (
     <div className=" mx-[20%]">
       <p className="text-4xl font-bold my-4">
