@@ -4,7 +4,7 @@ import BodyCards from "./Components/BodyCards";
 import { Outlet, Route, Routes } from "react-router-dom";
 import About from "./Components/About";
 import Contact from "./Components/Contact";
-import NotFoundError from "./Components/NotFoundError";
+import NotFoundError from "./Components/ErrorPage";
 import MenuDetails from "./Components/MenuDetails";
 const App = () => {
 
@@ -13,7 +13,6 @@ const App = () => {
     <div className="app mx-4">
       <Header />
      <Outlet/>
-
      <Routes>
       <Route path="" element={<BodyCards/>}/>
       <Route path="about" element={<About />}/>
