@@ -1,21 +1,32 @@
-import { useState } from "react";
-import useFetch from "./useFetch";
-import { restaurentMenu } from "../utils/constants";
+import { useEffect, useState } from "react";
+// import useFetch from "./useFetch";
+import { restaurantMenu } from "../utils/constants";
 import { useParams } from "react-router-dom";
 
-export default function MenuDetails({ resMenuId }) {
-  const restaurentId = useParams();
-  const { data, loading, error } = useFetch(restaurentMenu);
-  const resMenuData = data?.cards[4]?.cards[2]?.card?.card?.itemCards || [];
-  if (loading) return <h1>Loading....</h1>;
-  if (error) return <h1>Error:{error}</h1>;
+export default function MenuDetails() {
+  const { resId } = useParams();
+  const [resMenu, setResMenu] = useState(null);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=21.8974003&lng=83.39496319999999&restaurantId=${resId}`
+      );
+      let data = await response.json();
+      setResMenu(data?.data);
+    } catch (error) {
+      console.log("data not found");
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+  const resDetails = resMenu?.cards[2]?.card?.card?.info || {};
+  const { name, id, avgRating, costForTwoMessage } = resDetails;
+
+  if (resMenu === null) return <h1>Loading....</h1>;
   return (
     <div className=" mx-[20%]">
-      <p className="text-4xl font-bold my-4">
-        {/* {resMenu.data.cards[2].card.card.info.id} */}
-        Baskin Robbins-Ice Cream Desserts
-        {/* {resMenu.data.cards[2].card.card.info.name} */}
-      </p>
+      <p className="text-4xl font-bold my-4">{name}</p>
       <div className="border text-2xl  bg-white border-8 border-gray-200 font-bold shadow rounded-xl p-4">
         <p className="flex gap-2 my-2 ">
           <img
@@ -23,22 +34,12 @@ export default function MenuDetails({ resMenuId }) {
             src="https://cdn2.iconfinder.com/data/icons/greenline/512/star-512.png"
             alt="veg"
           />
-          4.2
-          {/* {resMenu.data.cards[2].card.card.info.avgRating} */}
+          {avgRating}
           <span>.</span>
-          <span className="ml-1">
-            250 for two
-            {/* {resMenu.data.cards[2].card.card.info.costForTwoMessage} */}
-          </span>
+          <span className="ml-1">{costForTwoMessage}</span>
         </p>
-        <p className="text-green-900">
-          {/* {resMenu.data.cards[2].card.card.info.cuisines.map(cusine,index)=><p>cusine.join(,)<p/>} */}
-          cusines-dessert,icecreams
-        </p>
-        <p>
-          Deliverytime-15-20 mins
-          {/* {resMenu.data.cards[2].card.card.info.sla.slaString} */}
-        </p>
+        <p className="text-green-900">{resDetails.cuisines.join(", ")}</p>
+        <p>{resDetails?.sla?.slaString}</p>
       </div>
       <h2 className="text-xl flex justify-center font-semibold my-6">
         🥗MENU🍽️

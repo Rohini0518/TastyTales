@@ -5,3 +5,6 @@ export const RES_IMG="https://media-assets.swiggy.com/swiggy/image/upload/fl_los
 export const restaurentsURL="https://www.swiggy.com/dapi/restaurants/list/v5?lat=21.8974003&lng=83.39496319999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
 
 export const restaurantMenu="https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=21.8974003&lng=83.39496319999999&restaurantId=308800&catalog_qa=undefined&submitAction=ENTER"
+
+//           `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=21.8974003&lng=83.39496319999999&restaurantId=${restaurantId}&catalog_qa=undefined&submitAction=ENTER`
+// 308800

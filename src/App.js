@@ -17,7 +17,8 @@ const App = () => {
       <Route path="" element={<BodyCards/>}/>
       <Route path="about" element={<About />}/>
       <Route path="contact" element={<Contact />}/>
-      <Route path="menu" element={<MenuDetails />}/>
+      <Route path="menu/:resId" element={<MenuDetails />}/>
+
       <Route path="*" element={<NotFoundError/>}/>
      </Routes>
     </div>
