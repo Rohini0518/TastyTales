@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 const BodyCards = () => {
   const [showRes, setShowRes] = useState(null);
-  const [topRated, setTopRated] = useState(true);
+  const [topRated, setTopRated] = useState(false);
   const [searchfilteredRes, setSearchFilteredRes] = useState(null);
   const [resSearch, setResSearch] = useState("");
 
@@ -29,9 +29,20 @@ const BodyCards = () => {
     fetchData();
   }, []);
   const handleAllrestaurants = () => {
-    setTopRated(true);
+    setTopRated(false);
     setResSearch("");
   };
+  const handleTopRatedToggle = () => {
+    setTopRated(!topRated);
+    if (!topRated) {
+      setSearchFilteredRes(showRes?.filter((res) => res.info.avgRating >= 4.0));
+    } else {
+      setSearchFilteredRes(showRes);
+    }
+  };
+
+  const handleSearch = () => {};
+
   const restaurentList = resSearch == "" ? showRes : searchfilteredRes;
   return restaurentList == null || searchfilteredRes == null ? (
     <ShimmerUI />
@@ -47,10 +58,7 @@ const BodyCards = () => {
       >
         LogIn
       </button>{" "}
-      <button
-        className="p-2 bg-green-500 rounded"
-        onClick={handleAllrestaurants}
-      >
+      <button className="p-2 bg-green-500 rounded" onClick={()=>setTopRated(true)}>
         All Restaurants
       </button>
       <button
@@ -59,29 +67,43 @@ const BodyCards = () => {
       >
         Top Rated Restaurants
       </button>
+      <label for="Toggle1" className="inline-flex items-center space-x-4 cursor-pointer text-gray-800">
+	<span>Top Rated</span>
+	<span className="relative">
+  <input
+            id="Toggle1"
+            type="checkbox"
+            className="hidden peer"
+            checked={topRated}
+            onChange={handleTopRatedToggle}
+          />		<div className="w-10 h-6 rounded-full shadow-inner bg-gray-600 peer-checked:bg-orange-600"></div>
+		<div className="absolute inset-y-0 left-0 w-4 h-4 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto bg-gray-100"></div>
+	</span>
+	{/* <span>Right</span> */}
+</label>
       <input
         type="text"
         onChange={(e) => {
           setResSearch(e.target.value);
-          console.log(searchfilteredRes);
+          // console.log(searchfilteredRes);
         }}
         value={resSearch}
         className="border-2 p-2"
       />
       <button
-        onClick={() => {
-          console.log(resSearch);
-          let searchfiltered = showRes.filter((res) =>
-            res.info.name.toLowerCase().includes(resSearch.toLowerCase())
-          );
-          setSearchFilteredRes(searchfiltered);
-        }}
+        // onClick={() => {
+        //   console.log(resSearch);
+        //   let searchfiltered = showRes.filter((res) =>
+        //     res.info.name.toLowerCase().includes(resSearch.toLowerCase())
+        //   );
+        //   setSearchFilteredRes(searchfiltered);
+        // }}
         className="bg-transparent  hover:bg-green-400 text-blue-700 font-semibold hover:text-white py-2 px-4 mx-2 border border-blue-500 hover:border-transparent rounded"
       >
         Search
       </button>
       <div className="flex flex-row gap-4 flex-wrap sm:mx-[5%]">
-        {topRated
+        {/* {topRated
           ? restaurentList.map((restaurent) => (
               <Link key={restaurent.info.id} to={`/menu/${restaurent.info.id}`}>
                 <Card resData={restaurent} />
@@ -94,14 +116,19 @@ const BodyCards = () => {
                   key={restaurent.info.id}
                   to={`/menu/${restaurent.info.id}`}
                 >
-                  <Card
-                    key={restaurent.info.id}
-                    resData={restaurent}
-                    onClick={() => <MenuDetails id={restaurent.info.id} />}
-                  />
+                  <Card key={restaurent.info.id} resData={restaurent} />
                 </Link>
-              ))}
-        {/* {filterRestaurent.map((restaurent)=><Card key={restaurent.info.id} resData={restaurent} />)} */}
+              ))} */}
+        
+        {
+              restaurentList&&restaurentList.filter((res) =>
+            res.info.name.toLowerCase().includes(resSearch.toLowerCase())
+          )
+          .map((restaurent) => (
+            <Link key={restaurent.info.id} to={`/menu/${restaurent.info.id}`}>
+              <Card  resData={restaurent} />
+            </Link>
+          ))} 
       </div>
     </div>
   );
