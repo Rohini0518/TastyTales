@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import {NAV_LOGO} from "../utils/constants"
 import logo from "../utils/tt.jpeg"
 const div = () => {
     return (
