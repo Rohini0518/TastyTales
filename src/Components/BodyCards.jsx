@@ -5,6 +5,7 @@ import { restaurentsURL } from "../utils/constants.js";
 import ShimmerUI from "./ShimmerUI.jsx";
 import MenuDetails from "./MenuDetails.jsx";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus.js";
 
 const BodyCards = () => {
   const [showRes, setShowRes] = useState(null);
@@ -42,6 +43,9 @@ const BodyCards = () => {
   };
 
   const handleSearch = () => {};
+const onlineStatus=useOnlineStatus()
+
+if (!onlineStatus) return <h1>Your are offline check internet status</h1>
 
   const restaurentList = resSearch == "" ? showRes : searchfilteredRes;
   return restaurentList == null || searchfilteredRes == null ? (

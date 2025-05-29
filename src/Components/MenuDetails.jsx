@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-// import useFetch from "./useFetch";
 import { restaurantMenu } from "../utils/constants";
 import { useParams } from "react-router-dom";
 
 export default function MenuDetails() {
   const { resId } = useParams();
   const [resMenu, setResMenu] = useState(null);
+  console.log(`${restaurantMenu}+restaurantId=${resId}`);
+  
   const fetchData = async () => {
     try {
-      const response = await fetch(
-        `https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=21.8974003&lng=83.39496319999999&restaurantId=${resId}`
+      const response = await fetch(`${restaurantMenu}?restaurantId=${resId}`
       );
       let data = await response.json();
       setResMenu(data?.data);
@@ -20,8 +20,11 @@ export default function MenuDetails() {
   useEffect(() => {
     fetchData();
   }, []);
-  const resDetails = resMenu?.cards[2]?.card?.card?.info || {};
-  const { name, id, avgRating, costForTwoMessage } = resDetails;
+  console.log(resMenu.cards);
+  console.log(`${restaurantMenu}?restaurantId=${resId}`);
+
+  const resDetails = resMenu?.cards?.length>2?cards[2]?.card?.card?.info : {};
+  const { name,  avgRating, costForTwoMessage } = resDetails;
 
   if (resMenu === null) return <h1>Loading....</h1>;
   return (
