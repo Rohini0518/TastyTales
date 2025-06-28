@@ -13,7 +13,7 @@ const Card = ({ resData }) => {
             }
             alt="res-image"
           ></img>
-          <h2 className=" text-xl font-bold">{resData.info.name}</h2>
+          <h2 className=" text-xl font-bold">{resData.info.name}{resData.info.sla.deliveryTime}</h2>
           <p className="font-semibold">
             {`Rating ${resData.info.avgRatingString} • ${resData.info.sla.slaString}`}
           </p>

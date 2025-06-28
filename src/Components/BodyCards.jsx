@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card.js";
-// import { resList } from "../utils/mockData.js";
 import { restaurentsURL } from "../utils/constants.js";
 import ShimmerUI from "./ShimmerUI.jsx";
 import MenuDetails from "./MenuDetails.jsx";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus.js";
+import PromotedCard from "./PromotedCard.jsx";
 
 const BodyCards = () => {
   const [showRes, setShowRes] = useState(null);
@@ -33,6 +33,7 @@ const BodyCards = () => {
     setTopRated(false);
     setResSearch("");
   };
+  const PromotedResCard = PromotedCard(Card);
   const handleTopRatedToggle = () => {
     setTopRated(!topRated);
     if (!topRated) {
@@ -43,9 +44,9 @@ const BodyCards = () => {
   };
 
   const handleSearch = () => {};
-const onlineStatus=useOnlineStatus()
+  const onlineStatus = useOnlineStatus();
 
-if (!onlineStatus) return <h1>Your are offline check internet status</h1>
+  if (!onlineStatus) return <h1>Your are offline check internet status</h1>;
 
   const restaurentList = resSearch == "" ? showRes : searchfilteredRes;
   return restaurentList == null || searchfilteredRes == null ? (
@@ -62,7 +63,10 @@ if (!onlineStatus) return <h1>Your are offline check internet status</h1>
       >
         LogIn
       </button>{" "}
-      <button className="p-2 bg-green-500 rounded" onClick={()=>setTopRated(true)}>
+      <button
+        className="p-2 bg-green-500 rounded"
+        onClick={() => setTopRated(true)}
+      >
         All Restaurants
       </button>
       <button
@@ -71,25 +75,27 @@ if (!onlineStatus) return <h1>Your are offline check internet status</h1>
       >
         Top Rated Restaurants
       </button>
-      <label for="Toggle1" className="inline-flex items-center space-x-4 cursor-pointer text-gray-800">
-	<span>Top Rated</span>
-	<span className="relative">
-  <input
+      <label
+        for="Toggle1"
+        className="inline-flex items-center space-x-4 cursor-pointer text-gray-800"
+      >
+        <span>Top Rated</span>
+        <span className="relative">
+          <input
             id="Toggle1"
             type="checkbox"
             className="hidden peer"
             checked={topRated}
             onChange={handleTopRatedToggle}
-          />		<div className="w-10 h-6 rounded-full shadow-inner bg-gray-600 peer-checked:bg-orange-600"></div>
-		<div className="absolute inset-y-0 left-0 w-4 h-4 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto bg-gray-100"></div>
-	</span>
-	{/* <span>Right</span> */}
-</label>
+          />{" "}
+          <div className="w-10 h-6 rounded-full shadow-inner bg-gray-600 peer-checked:bg-orange-600"></div>
+          <div className="absolute inset-y-0 left-0 w-4 h-4 m-1 rounded-full shadow peer-checked:right-0 peer-checked:left-auto bg-gray-100"></div>
+        </span>
+      </label>
       <input
         type="text"
         onChange={(e) => {
           setResSearch(e.target.value);
-          // console.log(searchfilteredRes);
         }}
         value={resSearch}
         className="border-2 p-2"
@@ -123,16 +129,21 @@ if (!onlineStatus) return <h1>Your are offline check internet status</h1>
                   <Card key={restaurent.info.id} resData={restaurent} />
                 </Link>
               ))} */}
-        
-        {
-              restaurentList&&restaurentList.filter((res) =>
-            res.info.name.toLowerCase().includes(resSearch.toLowerCase())
-          )
-          .map((restaurent) => (
-            <Link key={restaurent.info.id} to={`/menu/${restaurent.info.id}`}>
-              <Card  resData={restaurent} />
-            </Link>
-          ))} 
+
+        {restaurentList &&
+          restaurentList
+            .filter((res) =>
+              res.info.name.toLowerCase().includes(resSearch.toLowerCase())
+            )
+            .map((restaurent) => (
+              <Link key={restaurent.info.id} to={`/menu/${restaurent.info.id}`}>
+                {restaurent.info.sla.deliveryTime < 25 ? (
+                  <PromotedResCard resData={restaurent} />
+                ) : (
+                  <Card resData={restaurent} />
+                )}
+              </Link>
+            ))}
       </div>
     </div>
   );
