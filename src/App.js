@@ -9,6 +9,7 @@ import { lazy, Suspense } from "react";
 
 const App = () => {
   const About = lazy(() => import("./Components/About"));
+  console.log("app component started")
   // create a chef based food app which gives more respect to chefs as youtube was famous chefs
   return (
     <div className="app mx-4">
