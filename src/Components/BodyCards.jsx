@@ -12,18 +12,19 @@ const BodyCards = () => {
   const [topRated, setTopRated] = useState(false);
   const [searchfilteredRes, setSearchFilteredRes] = useState(null);
   const [resSearch, setResSearch] = useState("");
+console.log("bodyCrads ,card data")
 
   const fetchData = async () => {
     try {
       const response = await fetch(restaurentsURL);
-      let data = await response.json();
-      let resdata =
-        data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants;
+      let json = await response.json();
+      let resdata =json.data.data.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+        
+        console.log(resdata)
       setShowRes(resdata);
       setSearchFilteredRes(resdata);
     } catch (error) {
-      console.log("data not found");
+      console.log("data not found",error);
     }
   };
   useEffect(() => {
@@ -130,11 +131,8 @@ const BodyCards = () => {
                 </Link>
               ))} */}
 
-        {restaurentList &&
-          restaurentList
-            .filter((res) =>
-              res.info.name.toLowerCase().includes(resSearch.toLowerCase())
-            )
+        {restaurentList 
+            
             .map((restaurent) => (
               <Link key={restaurent.info.id} to={`/menu/${restaurent.info.id}`}>
                 {restaurent.info.sla.deliveryTime < 25 ? (
