@@ -6,16 +6,14 @@ import MenuDetails from "./MenuDetails.jsx";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus.js";
 import PromotedCard from "./PromotedCard.jsx";
-import "../styles/bodyCards.css"; 
+import "../styles/bodyCards.css";
 
 const BodyCards = () => {
-  const [showRes, setShowRes] = useState(null);
+  const [showRes, setShowRes] = useState([]);
   const [topRated, setTopRated] = useState(false);
-  const [searchfilteredRes, setSearchFilteredRes] = useState(null);
+  const [searchfilteredRes, setSearchFilteredRes] = useState([]);
   const [resSearch, setResSearch] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  console.log("bodyCrads, card data");
 
   const fetchData = async () => {
     try {
@@ -24,8 +22,7 @@ const BodyCards = () => {
       let resdata =
         json.data.data.cards[1]?.card?.card?.gridElements?.infoWithStyle
           ?.restaurants;
-
-      console.log(resdata);
+      console.log(resdata, "fetched resdata");
       setShowRes(resdata);
       setSearchFilteredRes(resdata);
     } catch (error) {
@@ -34,22 +31,50 @@ const BodyCards = () => {
   };
 
   useEffect(() => {
+    console.log("in useEffect fetch data");
     fetchData();
   }, []);
 
+  // useEffect(()=>{
+  //   console.log("bodyCards main page rendered")
+  //   return ()=>console.log("main page unmounted")
+  // })
   const PromotedResCard = PromotedCard(Card);
 
   const handleTopRatedToggle = () => {
-    setTopRated(!topRated);
     if (!topRated) {
-      setSearchFilteredRes(showRes?.filter((res) => res.info.avgRating >= 4.0));
+      setSearchFilteredRes(showRes?.filter((res) => res.info.avgRating >= 4.5));
     } else {
       setSearchFilteredRes(showRes);
     }
+    setTopRated(!topRated);
   };
 
-  
+  function handleSearch(e) {
+    let searchValue = e.target.value;
+    setResSearch(searchValue);
 
+    if (searchValue.trim() !== "") {
+      let searchdata = showRes.filter((res) => {
+        const nameMatch = res.info?.name?.toLowerCase() || "";
+        const cuisineMatch = res.info?.cuisines?.join(" ").toLowerCase() || "";
+        return (
+          nameMatch.includes(searchValue.toLowerCase()) ||
+          cuisineMatch.includes(searchValue.toLowerCase())
+        );
+      });
+      setSearchFilteredRes(searchdata);
+    } else {
+      console.log(" empty case");
+
+      setSearchFilteredRes(showRes);
+    }
+  }
+
+  function handleClearSearch() {
+    setResSearch("");
+    setSearchFilteredRes(showRes);
+  }
   const onlineStatus = useOnlineStatus();
 
   if (!onlineStatus)
@@ -109,7 +134,6 @@ const BodyCards = () => {
             </p>
           </div>
         </div>
-
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-10">
@@ -133,7 +157,7 @@ const BodyCards = () => {
               <input
                 type="text"
                 value={resSearch}
-                
+                onChange={handleSearch}
                 placeholder="Search for restaurants or cuisines..."
                 className="w-full pl-12 pr-24 py-4 border-2 border-slate-200 rounded-xl text-base bg-slate-50 focus:outline-none focus:border-orange-500 focus:bg-white transition-all duration-300 focus:shadow-lg"
               />
@@ -141,15 +165,13 @@ const BodyCards = () => {
               <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2">
                 {resSearch && (
                   <button
-                    onClick={""}
+                    onClick={handleClearSearch}
                     className="bg-slate-200 hover:bg-slate-300 text-slate-700 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200"
                   >
                     ✕
                   </button>
                 )}
-                <button
-                  className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg"
-                >
+                <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg">
                   Search
                 </button>
               </div>
@@ -187,8 +209,6 @@ const BodyCards = () => {
                 <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-all duration-300 peer-checked:translate-x-5"></div>
               </div>
             </label>
-
-            
           </div>
         </div>
       </div>
@@ -199,7 +219,7 @@ const BodyCards = () => {
           <div className="text-center py-20">
             <div className="text-8xl mb-6 opacity-20">🔍</div>
             <h3 className="text-2xl font-bold text-slate-700 mb-3">
-              No Restaurants Found
+              No Items Found
             </h3>
             <p className="text-slate-500 text-lg mb-6">
               Try adjusting your search or filters
@@ -213,7 +233,7 @@ const BodyCards = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {restaurentList?.map((restaurent, index) => (
+            {searchfilteredRes?.map((restaurent, index) => (
               <Link
                 key={restaurent.info.id}
                 to={`/menu/${restaurent.info.id}`}
@@ -232,7 +252,6 @@ const BodyCards = () => {
       </div>
 
       {/* Footer */}
-     
     </div>
   );
 };
