@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { restaurantMenu } from "../utils/constants";
 import { useParams } from "react-router-dom";
-import "../styles/menuDetails.css"; 
+import "../styles/menuDetails.css";
 
 export default function MenuDetails() {
   const { resId } = useParams();
@@ -20,7 +20,7 @@ export default function MenuDetails() {
       // Menu categories
       const menuCards =
         json?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards || [];
-      console.log(menuCards);
+      // console.log(menuCards);
 
       const categories = menuCards.filter((c) => c.card?.card?.itemCards);
 
@@ -41,7 +41,9 @@ export default function MenuDetails() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-slate-50 to-orange-50">
         <div className="loading-spinner w-12 h-12 border-4 border-orange-100 border-t-orange-500 rounded-full"></div>
-        <p className="mt-5 text-slate-700 text-lg font-medium">Preparing your menu...</p>
+        <p className="mt-5 text-slate-700 text-lg font-medium">
+          Preparing your menu...
+        </p>
       </div>
     );
 
@@ -58,7 +60,7 @@ export default function MenuDetails() {
           itemCards: cat.card.card.itemCards.filter((item) =>
             item.card.info.name
               .toLowerCase()
-              .includes(searchQuery.toLowerCase())
+              .includes(searchQuery.toLowerCase()),
           ),
         },
       },
@@ -117,7 +119,9 @@ export default function MenuDetails() {
             <div className="flex items-center gap-4">
               <span className="text-3xl drop-shadow-lg">💰</span>
               <div>
-                <div className="text-2xl font-bold">{info?.costForTwoMessage}</div>
+                <div className="text-2xl font-bold">
+                  {info?.costForTwoMessage}
+                </div>
                 <div className="text-xs text-orange-300 uppercase tracking-wider mt-1">
                   For Two
                 </div>
@@ -176,7 +180,7 @@ export default function MenuDetails() {
           <div className="bg-orange-100 text-orange-900 px-5 py-2 rounded-full text-sm font-semibold">
             {filteredCategories.reduce(
               (acc, cat) => acc + cat.card.card.itemCards.length,
-              0
+              0,
             )}{" "}
             dishes
           </div>
